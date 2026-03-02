@@ -88,7 +88,9 @@ export class BotCommandService {
         // orders
 
         if (text === '📦 MY ORDERS') {
-          const orders = await this.orderModel.find({ chatId });
+          const orders = await this.orderModel.find({
+            user: { $eq: chatId },
+          } as any);
 
           if (!orders.length)
             return this.bot.sendMessage(chatId, 'No orders yet 📦');
@@ -96,7 +98,6 @@ export class BotCommandService {
           let message = '📦 Order history:\n\n';
 
           for (const order of orders) {
-            message += `🧾 Order ID: ${order._id}\n`;
             message += `💰 Total: ${order.totalPrice}$\n`;
             message += `📌 Status: ${order.status}\n\n`;
           }
@@ -132,9 +133,7 @@ export class BotCommandService {
 
           return this.bot.sendMessage(
             chatId,
-            `Phone number: ${info.phone}
-             Email: ${info.email}
-             Address: ${info.address}`,
+            `Phone number: ${info.phone}\nEmail: ${info.email}\nAddress: ${info.address}`,
           );
         }
 
