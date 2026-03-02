@@ -101,10 +101,17 @@ export class BotUserService {
           );
         }
 
-        const { latitude, longitude } = msg.location;
+        const latitude = msg.location.latitude;
+        const longitude = msg.location.longitude;
+
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+        );
+
+        const data = await response.json();
 
         //
-        const address = `${latitude}, ${longitude}`;
+        const address = data.display_name;
 
         await this.botUsersSchema.create({
           username: msg.from?.first_name || msg.from?.last_name || 'user',
