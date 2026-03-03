@@ -50,7 +50,7 @@ export class BotCommandService {
 
       if (!this.userState.has(chatId)) {
         // menu
- 
+
         if (text === '🍔 MENU') {
           return this.menuService.showCategories(chatId);
         }
@@ -155,5 +155,9 @@ export class BotCommandService {
     ///
 
     /// ending
+  }
+  async onModuleInit() {
+    await this.bot.setWebHook(`${process.env.RENDER_URL}/bot`);
+    console.log('Webhook set');
   }
 }
