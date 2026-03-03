@@ -5,6 +5,6 @@ export const BOT_INSTANCE = 'BOT_INSTANCE';
 export const botProvider = {
   provide: BOT_INSTANCE,
   useFactory: () => {
-    return new TelegramBot(process.env.BOT_TOKEN!, { polling: false });
+    return new TelegramBot(process.env.BOT_TOKEN!);
   },
 };
