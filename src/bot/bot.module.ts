@@ -19,6 +19,7 @@ import { BotMenuService } from './bot.menu.service';
 import { BotCartService } from './bot.cart.service';
 import { BotCart, BotCartSchema } from 'src/schema/bot.cart.schema';
 import { SeedService } from 'src/seed/seed.service';
+import { BotController } from './bot.controller';
 
 @Module({
   imports: [
@@ -40,5 +41,6 @@ import { SeedService } from 'src/seed/seed.service';
     BotCartService,
     SeedService,
   ],
+  controllers: [BotController],
 })
 export class BotModule {}
