@@ -3,7 +3,6 @@ import { Types } from 'mongoose';
 
 @Schema({ timestamps: true, versionKey: false })
 export class BotSavedFood {
-
   @Prop({ type: Types.ObjectId, ref: 'BotUsers', required: true, unique: true })
   user: Types.ObjectId;
 
@@ -21,4 +20,5 @@ export class BotSavedFood {
   @Prop({ default: 0 })
   totalPrice: number;
 }
+
 export const BotSavedFoodSchema = SchemaFactory.createForClass(BotSavedFood);
