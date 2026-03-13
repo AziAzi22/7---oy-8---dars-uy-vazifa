@@ -104,28 +104,37 @@ export class BotUserService {
         const latitude = msg.location.latitude;
         const longitude = msg.location.longitude;
 
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
-        );
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+            {
+              headers: {
+                'User-Agent': 'telegram-bot',
+              },
+            },
+          );
 
-        const data = await response.json();
+          const data = await response.json();
+          const address = data?.display_name || 'Unknown address';
 
-        //
-        const address = data.display_name;
+          await this.botUsersSchema.create({
+            username: msg.from?.first_name || msg.from?.last_name || 'user',
+            chatId,
+            contact: state.contact,
+            adress: address,
+          });
 
-        await this.botUsersSchema.create({
-          username: msg.from?.first_name || msg.from?.last_name || 'user',
-          chatId,
-          contact: state.contact,
-          adress: address,
-        });
+          this.userState.delete(chatId);
 
-        this.userState.delete(chatId);
+          await this.bot.sendMessage(chatId, 'registration completed ✅', {
+            reply_markup: { remove_keyboard: true },
+          });
 
-        this.bot.sendMessage(chatId, 'registration completed ✅', {
-          reply_markup: { remove_keyboard: true },
-        });
-        await this.showMainMenu(chatId);
+          await this.showMainMenu(chatId);
+        } catch (err) {
+          console.error(err);
+          await this.bot.sendMessage(chatId, 'Registration failed, try again');
+        }
         return;
       }
     });

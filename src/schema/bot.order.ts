@@ -12,13 +12,13 @@ export class BotOrder {
   @Prop([
     {
       food: { type: Types.ObjectId, ref: 'BotFood' },
-      count: Number,
+      quantity: Number,
       price: Number,
     },
   ])
   items: {
     food: Types.ObjectId;
-    count: number;
+    quantity: number;
     price: number;
   }[];
 

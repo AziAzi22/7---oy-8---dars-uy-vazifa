@@ -9,12 +9,12 @@ export class BotSavedFood {
   @Prop([
     {
       food: { type: Types.ObjectId, ref: 'BotFood' },
-      count: { type: Number, default: 1 },
+      quantity: { type: Number, default: 1 },
     },
   ])
   items: {
     food: Types.ObjectId;
-    count: number;
+    quantity: number;
   }[];
 
   @Prop({ default: 0 })
